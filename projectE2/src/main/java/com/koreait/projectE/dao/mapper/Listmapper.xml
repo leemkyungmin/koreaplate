@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.koreait.projectE.dao.ListDAO">
+	
+	<select id="main_list" resultType="com.koreait.projectE.dto.MainListDTO">
+		SELECT SUBSTR(DADDRESS,1,INSTR(DADDRESS,' ',1,1)-1) AS dong,COUNT(*) AS count
+		FROM DEPARTMENT_INFO
+		WHERE DACCPET =1
+		GROUP BY SUBSTR(DADDRESS,1,INSTR(DADDRESS,' ',1,1)-1)
+	</select>
+	
+	<select id="location_list" 	resultType="com.koreait.projectE.dto.DepartmentDTO">
+		SELECT * FROM DEPARTMENT_INFO
+		WHERE DADDRESS LIKE '%' || #{location} ||'%' AND DACCPET=1 ORDER BY DRATING DESC	
+	</select>
+	
+	<select id="get_locationCount" resultType="com.koreait.projectE.dto.MainListDTO">
+		SELECT SUBSTR(DADDRESS,1,INSTR(DADDRESS,' ',1,1)-1) AS dong,count(*) AS count
+		FROM DEPARTMENT_INFO 
+		WHERE DADDRESS LIKE '%' || #{location} ||'%' AND DACCPET=1
+		GROUP BY SUBSTR(DADDRESS,1,INSTR(DADDRESS,' ',1,1)-1)
+	</select>
+	
+	<select id="search_list" resultType="com.koreait.projectE.dto.DepartmentDTO">
+		SELECT *
+		FROM DEPARTMENT_INFO
+		WHERE DNAME LIKE '%' || #{query} || '%' OR DADDRESS LIKE '%' || #{query} ||'%' AND DACCPET=1
+	</select>
+	
+</mapper>
