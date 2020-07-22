@@ -1,8 +1,5 @@
 package com.koreait.projectE.contorller;
 
-
-
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,9 +23,6 @@ import com.koreait.projectE.command.Admin.AdminUpdateUserCommand;
 import com.koreait.projectE.commom.Command;
 import com.koreait.projectE.dao.AdminDAO;
 
-
-
-
 @Controller
 public class AdminController {
 
@@ -37,20 +31,23 @@ public class AdminController {
 	private Command command;
 	
 	
-	
 	@RequestMapping("adminmanagePage") 
 	public String adminmagePage(HttpServletRequest request, Model model) {
+		
 		model.addAttribute("request", request);
 		command=new AdminCommand();
 		command.execute(sqlSession, model);
+		
 		return "admin/adminmanagerPage";	
 	}
 	
 	@RequestMapping("departmentView")
 	public String departmentView(HttpServletRequest request, Model model) {
+		
 		model.addAttribute("request", request);
 		command=new AdminDeptViewCommand();
 		command.execute(sqlSession, model);
+		
 		return "admin/departmentView";	
 	}
 	
@@ -58,24 +55,26 @@ public class AdminController {
 	public String UpdateUserPage(HttpServletRequest request, Model model) {
 		
 		model.addAttribute("request", request);
-		
 		command=new AdminUpdateUserCommand();
 		command.execute(sqlSession, model);
+		
 		return "admin/UpdateUser";
 
 	}
 	
 	@RequestMapping(value="UpdateDepartment", method=RequestMethod.GET)
 	public String UpdateDepartment(HttpServletRequest request, Model model) {
-		model.addAttribute("request", request);
 		
+		model.addAttribute("request", request);
 		command=new AdminUpdateDepartmentCommand();
 		command.execute(sqlSession, model);
+		
 		return "admin/UpdateDepartment";
 	}
 	
 	@RequestMapping(value="deleteUser", method=  RequestMethod.POST)
 	public String deleteBtnuser(HttpServletRequest request, Model model) {
+		
 		String[] cNo = request.getParameterValues("cNo");
 		System.out.println(cNo.length);
 		AdminDAO aDAO = sqlSession.getMapper(AdminDAO.class);
@@ -84,21 +83,23 @@ public class AdminController {
 			aDAO.deleteReview(cNo[i]);
 			aDAO.deleteUser(cNo[i]);			
 		}
-
 		return "redirect:adminmanagePage";
 	}
 
 	@RequestMapping("UpdateUser")
 	public String UpdateUser(HttpServletRequest request,Model model) {
+		
 		String cGrade = request.getParameter("cGrade");
 		String cNo =request.getParameter("cNo");
 		AdminDAO aDAO = sqlSession.getMapper(AdminDAO.class);
 		aDAO.UpdateUser(cGrade,cNo);
+		
 		return "redirect:adminmanagePage";
 	}
 		
 	@RequestMapping(value="deptAccpetPage")
 	public String deptAccpetPage(HttpServletRequest request, Model model) {
+		
 		model.addAttribute("request", request);
 		command = new AdminDeptAcceptListCommand();
 		command.execute(sqlSession, model);

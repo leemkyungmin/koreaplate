@@ -33,6 +33,7 @@ public class ReviewInsertCommand implements Command {
 		String rPoto = ""; // 실제 DB에 들어가는 필드
 		int count = 0;
 		
+		//여러개의 파일을 업로드 하기위해
 		if (fileList != null && fileList.size() > 0) { // 파일첨부 O
 			for (MultipartFile file : fileList) {
 				if (!file.isEmpty()) {
@@ -52,9 +53,10 @@ public class ReviewInsertCommand implements Command {
 						} else {
 							rPoto += saveFilename + ",";
 						}
-						
+						//폴더 경로
 						String realPath = mrequest.getSession().getServletContext().getRealPath("/resources/storage/review_img");
 						
+						//폴더가 없으면 폴더를 생성한다.
 						File directory = new File(realPath);
 						if (!directory.exists()) {
 							directory.mkdirs();
@@ -70,10 +72,12 @@ public class ReviewInsertCommand implements Command {
 				}
 			}
 			rDAO.insertReview(rTitle, rContent, rPoint, rPoto, cNo, dSaup_no);	
-		} else { // 파일첨부 X
+		} else { // 파일첨부가 안되어 있을 경우 
 			rDAO.insertReview(rTitle, rContent, rPoint, null, cNo, dSaup_no);
 		}
 		BoardDAO bdao =sqlSession.getMapper(BoardDAO.class);
+		//파일 업로드가 정상적으로 완료 되면 
+		//DEPARTMENT_INFO 테이블 의 RATING을 업데이트해준다.
 		bdao.DepartRatingUpdate(dSaup_no);
 	}
 

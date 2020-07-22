@@ -17,19 +17,14 @@ public class CustomerMyPagePhotoUpdateCommand implements Command {
 	public void execute(SqlSession sqlSession, Model model) {
 		
 		Map<String, Object> map = model.asMap();
-		
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) map.get("mr");
 		String cNo = mr.getParameter("cNo");
 		MultipartFile cPhoto = mr.getFile("cPhoto");
-		
 		String originFilename = cPhoto.getOriginalFilename();
-		
 		String extName = originFilename.substring(originFilename.lastIndexOf(".") + 1);
-		
 		String saveFilename = null;
 		
 		try {
-			
 			saveFilename = originFilename.substring(0, originFilename.lastIndexOf(".")) +
 					   "_" +
 					   System.currentTimeMillis() +

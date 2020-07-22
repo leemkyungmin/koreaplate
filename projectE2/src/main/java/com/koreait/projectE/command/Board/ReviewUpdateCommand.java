@@ -73,6 +73,7 @@ public class ReviewUpdateCommand implements Command {
 			rDAO.updateReview(rTitle, rContent, rPoint, null,cNo,dSaup_no,rNo);
 		}
 		BoardDAO bdao =sqlSession.getMapper(BoardDAO.class);
+		// 리뷰 수정 시 DEPARTMENT_INFO 테이블 RATING 업데이트 
 		bdao.DepartRatingUpdate(dSaup_no);
 	}
 

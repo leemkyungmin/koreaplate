@@ -28,7 +28,8 @@ public class ReviewDetailCommand implements Command {
 		ReviewDTO rdto =bdao.reivewDetail(rNo);
 		model.addAttribute("rdto", rdto);
 		
-		
+		//업체 정보 가져오기 (REVIEW 테이블에는 음식점 이름이 없기 때문에)
+		//DEPARTMENT_INFO 테이블에서 사업자 번호를 이용해 음식점 이름을 가져온다.
 		DepartmentDTO deptdto = bdao.DepartView(rdto.getdSaup_no());
 		model.addAttribute("deptdto", deptdto); 
 		

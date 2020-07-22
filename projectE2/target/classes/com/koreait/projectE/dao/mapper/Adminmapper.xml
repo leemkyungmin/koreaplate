@@ -24,34 +24,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="UpdateUserPage" resultType="com.koreait.projectE.dto.CustomerDTO">
-		select * from CUSTOMER 
-		where cNo=#{cNo}
+		SELECT * FROM CUSTOMER 
+		WHERE CNO=#{cNo}
 	</select>
 	
 	<select id="UpdateDepartmentPage" resultType="com.koreait.projectE.dto.DepartmentDTO">
-		select * from DEPARTMENT_info
-		where dNo=#{dNo}
+		SELECT * FROM DEPARTMENT_INFO
+		WHERE DNO=#{dNo}
 	</select>
 	
 	<select id="getAjaxCutomer" resultType="com.koreait.projectE.dto.CustomerDTO">
-		select * from customer 
-		where cId like '%' || #{query} || '%' or cName like '%' || #{query} || '%' 
+		SELECT * FROM CUSTOMER 
+		WHERE CID LIKE '%' || #{query} || '%' OR CNAME LIKE '%' || #{query} || '%' 
 	</select>
 	
 	<delete id="deleteUser">
-		delete from customer
-		where cNo = #{cNo}
+		DELETE FROM CUSTOMER
+		WHERE CNO = #{cNo}
 	</delete>
 	
 	<delete id="deleteReview">
-		delete from review
-		where cNo = #{cNo}
+		DELETE FROM REVIEW
+		WHERE CNO = #{cNo}
 	</delete>
 	
 	<update id="UpdateUser">
-		update  customer
-		set cGrade = #{param1}
-		where cNo = #{param2}
+		UPDATE CUSTOMER
+		SET CGRADE = #{param1}
+		WHERE CNO = #{param2}
 	</update>
 	
 	

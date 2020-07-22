@@ -37,8 +37,6 @@ import com.koreait.projectE.dto.DateData;
 import com.koreait.projectE.dto.DepartmentDTO;
 import com.koreait.projectE.dto.ReviewDTO;
 
-
-
 @Controller	
 public class BoardController {
 	
@@ -63,15 +61,18 @@ public class BoardController {
 		model.addAttribute("request", request);
 		command= new ReviewWriteCommand();
 		command.execute(sqlSession, model);
+		
 		return "board/reviewWritePage";
 	}
 	
 
 	@RequestMapping(value="insertReview", method=RequestMethod.POST)
 	public String insertReview(MultipartHttpServletRequest mrequest, Model model) {
+		
 		model.addAttribute("mrequest", mrequest);
 		command = new ReviewInsertCommand();
 		command.execute(sqlSession, model);
+		
 		return "redirect:viewPage?dSaup_no="+mrequest.getParameter("dSaup_no");
 	}
 	
@@ -96,7 +97,6 @@ public class BoardController {
 			 rdto=bdao.reviewNp(dSaup_no);
 		 }
 		
-		 
 		 if(rdto.size()>0) {
 			 for(int i=0; i<rdto.size(); i++) {
 				
@@ -251,9 +251,9 @@ public class BoardController {
 	@RequestMapping(value="getRemainSeat", produces="text/html; charset=utf-8", method = RequestMethod.GET)
 	@ResponseBody
 	public String getRemainSeat(HttpServletRequest request) {
+		
 		String dSaup_no = request.getParameter("dSaup_no");
 		String aDate = request.getParameter("aDate");
-		
 		AppointmentDAO aDAO = sqlSession.getMapper(AppointmentDAO.class);
 		String remainSeat = aDAO.selectAp_count(dSaup_no, aDate) + "";
 		
@@ -272,9 +272,11 @@ public class BoardController {
 	
 	@RequestMapping("UpdateReview")
 	public String ReviewUpdate(MultipartHttpServletRequest mrequest, Model model) {
+		
 		model.addAttribute("mrequest", mrequest);
 		command = new ReviewUpdateCommand();
 		command.execute(sqlSession, model);
+		
 		return "redirect:myPage";
 	}
 

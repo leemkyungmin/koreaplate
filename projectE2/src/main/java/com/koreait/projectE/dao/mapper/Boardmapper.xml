@@ -5,60 +5,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.koreait.projectE.dao.BoardDAO">
 	<select id="DepartView" resultType="com.koreait.projectE.dto.DepartmentDTO">
-		select * from DEPARTMENT_INFO WHERE DSAUP_NO=#{dSaup_no}
+		SELECT * 
+		FROM DEPARTMENT_INFO 
+		WHERE DSAUP_NO=#{dSaup_no}
 	</select>
 	
 	<update id="DepartRatingUpdate">
-		Update DEPARTMENT_INFO 
-		set DRATING=(select nvl(avg(RPOINT),0) from review where DSAUP_NO =#{dSaup_no}) 
-		where dSaup_no=#{dSaup_no}  
+		UPDATE DEPARTMENT_INFO 
+		SET DRATING=(SELECT NVL(AVG(RPOINT),0) FROM REVIEW WHERE DSAUP_NO =#{dSaup_no}) 
+		WHERE DSAUP_NO=#{dSaup_no}  
 	</update>
 	
 	<select id="reviewList" resultType="com.koreait.projectE.dto.ReviewDTO">
-		select  r.rNo,r.rpoint,r.rdepth,r.REPORTCOUNT,c.cPoto,c.cnickname,r.rTitle,r.rcontent,r.rPoto,r.rwriter_date,r.rAppointment 
-		from review r,customer c 
-		where r.dsaup_no=#{dSaup_no} and r.cno=c.cno 
-		order by r.rNo desc
+		SELECT  r.RNO,r.RPOINT,r.RDEPTH,r.REPORTCOUNT,c.CPOTO,c.CNICKNAME,r.RTITLE,r.RCONTENT,r.RPOTO,r.RWRITER_DATE,r.RAPPOINTMENT 
+		FROM REVIEW r,CUSTOMER c 
+		WHERE  r.DSAUP_NO=#{dSaup_no} and r.CNO=c.cno 
+		ORDER BY r.RNO DESC
 	</select>
 	
 	<update id="UpdateHit">
-		update DEPARTMENT_INFO SET DHIT =DHIT+1 WHERE DSAUP_NO=#{dSaup_no}
+		UPDATE DEPARTMENT_INFO 
+		SET DHIT =DHIT+1 
+		WHERE DSAUP_NO=#{dSaup_no}
 	</update>
 	
 	<select id="menuList" resultType="com.koreait.projectE.dto.MenuDTO">
-		select * from menu_info where dsaup_no=#{dSaup_no}
+		SELECT * 
+		FROM MENU_INFO 
+		WHERE DSAUP_NO=#{dSaup_no}
 	</select>
 	
 	<select id="appointmentCount" resultType="int">
-		select count(*) as count from appointment where dSaup_no=#{dSaup_no}
-	</select>
-	<select id="getSide_list" parameterType="String" resultType="com.koreait.projectE.dto.DepartmentDTO">
-		select * 
-		from Department_info
-		 where DADDRESS LIKE '%' || #{param1} || '%' and not dName=#{param2} and DACCPET =1  ORDER BY DRATING DESC
+		SELECT COUNT(*) AS count 
+		FROM APPOINTMENT WHERE DSAUP_NO=#{dSaup_no}
 	</select>
 	
-	<!-- test -->
+	<select id="getSide_list" parameterType="String" resultType="com.koreait.projectE.dto.DepartmentDTO">
+		SELECT * 
+		FROM DEPARTMENT_INFO
+		 WHERE DADDRESS LIKE '%' || #{param1} || '%' AND NOT DNAME=#{param2} AND DACCPET =1  ORDER BY DRATING DESC
+	</select>
+	
+	
 	<select id="reviewAll" resultType="com.koreait.projectE.dto.ReviewDTO">
-		select r.rNo,r.rpoint,r.rdepth,r.REPORTCOUNT,c.cPoto,c.cnickname,r.rTitle,r.rcontent,r.rPoto,r.rwriter_date,r.rAppointment 
-		from review r,customer c 
-		where RAPPOINTMENT >= 0 and dSaup_no=#{dSaup_no} and r.cNo=c.cNo
+		SELECT r.RNO,r.RPOINT,r.RDEPTH,r.REPORTCOUNT,c.CPOTO,c.CNICKNAME,r.RTITLE,r.RCONTENT,r.RPOTO,r.RWRITER_DATE,r.RAPPOINTMENT
+		FROM REVIEW r,CUSTOMER c 
+		WHERE  RAPPOINTMENT >= 0 AND DSAUP_NO=#{dSaup_no} AND r.CNO=c.CNO
 	</select>
 	<select id="reviewAp" resultType="com.koreait.projectE.dto.ReviewDTO">
-		select r.rNo,r.rpoint,r.rdepth,r.REPORTCOUNT,c.cPoto,c.cnickname,r.rTitle,r.rcontent,r.rPoto,r.rwriter_date,r.rAppointment 
-		from review r,customer c 
-		where RAPPOINTMENT > 0 and dSaup_no=#{dSaup_no} and r.cNo=c.cNo
+		SELECT r.RNO,r.RPOINT,r.RDEPTH,r.REPORTCOUNT,c.CPOTO,c.CNICKNAME,r.RTITLE,r.RCONTENT,r.RPOTO,r.RWRITER_DATE,r.RAPPOINTMENT
+		FROM REVIEW r,CUSTOMER c 
+		WHERE  RAPPOINTMENT > 0 AND DSAUP_NO=#{dSaup_no} AND r.CNO=c.CNO
 	</select>
 	<select id="reviewNp" resultType="com.koreait.projectE.dto.ReviewDTO">
-		select r.rNo,r.rpoint,r.rdepth,r.REPORTCOUNT,c.cPoto,c.cnickname,r.rTitle,r.rcontent,r.rPoto,r.rwriter_date,r.rAppointment 
-		from review r,customer c 
-		where RAPPOINTMENT = 0 and dSaup_no=#{dSaup_no} and r.cNo=c.cNo
+		SELECT r.RNO,r.RPOINT,r.RDEPTH,r.REPORTCOUNT,c.CPOTO,c.CNICKNAME,r.RTITLE,r.RCONTENT,r.RPOTO,r.RWRITER_DATE,r.RAPPOINTMENT
+		FROM REVIEW r,CUSTOMER c 
+		WHERE  RAPPOINTMENT = 0 AND DSAUP_NO=#{dSaup_no} AND r.CNO=c.CNO
 	</select>
 	<select id="reivewDetail" resultType="com.koreait.projectE.dto.ReviewDTO">
-		select  r.rNo,r.rpoint,r.rdepth,r.REPORTCOUNT,c.cPoto,c.cnickname,r.rTitle,r.rcontent,r.rPoto,r.rwriter_date,r.rAppointment,
-		r.dSaup_no 
-		from review r,customer c 
-		where  r.cno=c.cno and r.rno=#{rNo}
+		SELECT  r.RNO,r.RPOINT,r.RDEPTH,r.REPORTCOUNT,c.CPOTO,c.CNICKNAME,r.rTITLE,r.RCONTENT,r.RPOTO,r.RWRITER_DATE,r.RAPPOINTMENT,
+		r.DSAUP_NO 
+		FROM REVIEW r,CUSTOMER c 
+		WHERE  r.CNO=c.CNO AND r.RNO=#{rNo}
 	</select>
 	
 </mapper>

@@ -16,9 +16,9 @@ public class CustomerLoginCommand implements Command {
 	public void execute(SqlSession sqlSession, Model model) {
 		
 		Map<String, Object> map = model.asMap();
-		
 		HttpServletRequest request = (HttpServletRequest)map.get("request");
 		
+		//회원 로그인 처리 
 		String cId = request.getParameter("cId");
 		String cPw = request.getParameter("cPw");
 		
